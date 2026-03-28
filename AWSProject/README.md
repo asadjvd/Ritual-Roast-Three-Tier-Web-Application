@@ -22,3 +22,7 @@ To design a secure, scalable and fault-tolerant 3-tier architecture on AWS for h
 	- Backend reads from this DB to populate the frontend dynamically.
 
 ![Customer Flow Chart](Architecture/RR-Flow-Chart.jpg)
+
+## Low Level Design Architecture
+
+![Ritual Roast Low Level Design](Architecture/RR_LLD.jpg)

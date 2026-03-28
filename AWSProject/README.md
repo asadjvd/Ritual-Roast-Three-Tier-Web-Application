@@ -133,3 +133,22 @@ The VPC would comprise of multiple subnets. For the project, we will make use of
 ![RR-Data-Subnet-01-1a](Images/datasubnet-01-1a.png)
 
 ![RR-Data-Subnet-02-1b](Images/datasubnet-02-1b.png)
+
+## Step 3
+
+Once the subnets are created, we then create an Internet Gateway (IGW) by assigning a VPC for public internet access for public subnet, next we create a public route table which will have default route of VPC to route traffic locally/internally and create another route for internet access via Internet Gateway and finally associate public subnets to the public route table. Below are screenshots of the IGW and ritual roast public route table:
+
+![RR-IGW](Images/rr-igw.png)
+
+![RR-Public-RTB](Images/rr-public-rtb-routes.png)
+
+![RR-Public-RTB](Images/rr-public-rtb-explicit-subnet-association.png)
+
+## Step 4
+
+We use a Nat gateway when we need to access internet from a private subnet. So, a Nat Gateway would be created in Ritual Roast VPC and added to a public subnet. Although it can be in Multiple Availability Zones but because it is a service for which we are charged so I have created just one in PublicSubnet-01-1a. The main route table is modified to add entry of Nat Gateway. Again, the request from Nat GW passes to IGW which then sends it to its destination. The request from resources in private subnet is intercepted by Nat Gateway which performs IP masquerading. It changes Private IP to Public IP and then sends it to IGW. Below are screenshots of NAT GW and the main route table created for Ritual Roast web application deployment on the AWS:
+
+![RR-Nat-GW](Images/rr-natgw.png)
+
+![RR-Main-RTB](Images/rr-main-rtb.png)
+

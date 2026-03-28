@@ -206,7 +206,7 @@ After having deployed ALB, next we will deploy an Auto Scaling Group (ASG) which
 
 ![RR-ASG-Integration](Images/rr-asg-integration.png)
 
-![RR-User-Data-Script](Images/user-data.png)
+![RR-User-Data-Script](Images/user-data.PNG)
 
 ![RR-Instance-Summary-1](Images/instance-summary1.png)
 

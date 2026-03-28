@@ -113,4 +113,4 @@ To design a secure, scalable and fault-tolerant 3-tier architecture on AWS for h
 
 The first step was to create a VPC which was named ritual-roast-vpc. So, a VPC is a logical partition of AWS infrastructure where we can deploy our resources and make sure, they are logically isolated from other customers that are also using the AWS infrastructure. The VPC was created in the region us-east-1 in N. Virginia. The VPC CIDR configured was 10.16.0.0/16. Below is a screenshot of the created VPC:
 
-![RR-VPC](AWSProject/Images/rr-vpc.png)
+![RR-VPC](Images/rr-vpc.png)

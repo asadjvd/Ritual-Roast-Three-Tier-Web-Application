@@ -114,3 +114,22 @@ To design a secure, scalable and fault-tolerant 3-tier architecture on AWS for h
 The first step was to create a VPC which was named ritual-roast-vpc. So, a VPC is a logical partition of AWS infrastructure where we can deploy our resources and make sure, they are logically isolated from other customers that are also using the AWS infrastructure. The VPC was created in the region us-east-1 in N. Virginia. The VPC CIDR configured was 10.16.0.0/16. Below is a screenshot of the created VPC:
 
 ![RR-VPC](Images/rr-vpc.png)
+
+## Step 2
+The VPC would comprise of multiple subnets. For the project, we will make use of eight subnets. Two subnets, each for Public, Web, Application, and Data across two Availability Zones (us-east-1a and us-east-1b). The architecture is based on the VPC CIDR block range 10.16.0.0/16. Below are the screenshots of the created subnets with the assigned VPC:
+
+![RR-Public-Subnet-01-1a](Images/publicsubnet-01-1a.png)
+
+![RR-Public-Subnet-02-1b](Images/publicsubnet-02-1b.png)
+
+![RR-Web-Subnet-01-1a](Images/websubnet-01-1a.png)
+
+![RR-Web-Subnet-02-1b](Images/websubnet-02-1b.png)
+
+![RR-App-Subnet-01-1a](Images/appsubnet-01-1a.png)
+
+![RR-App-Subnet-02-1b](Images/appsubnet-02-1b.png)
+
+![RR-Data-Subnet-01-1a](Images/datasubnet-01-1a.png)
+
+![RR-Data-Subnet-02-1b](Images/datasubnet-02-1b.png)

@@ -21,3 +21,4 @@ To design a secure, scalable and fault-tolerant 3-tier architecture on AWS for h
 	- Stores submitted recipe data.
 	- Backend reads from this DB to populate the frontend dynamically.
 
+![Customer Flow Chart](Architecture/RR-Flow-Chart.jpg)

@@ -103,7 +103,7 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 
 | Task Defintion | Details |
 |------|------|
-| Task Definition Name | ritual-roast-Flask-backend-task-def |
+| Task Definition Name | ritual-roast-flask-backend-task-def |
 | IAM Role | Task execution role |
 | Container Name | ritual-roast-flask-container |
 | Port Mappings | 5000 |

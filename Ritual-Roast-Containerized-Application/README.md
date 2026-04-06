@@ -49,14 +49,14 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 
 ## RDS MySQL Configuration
 
-| Component        | Details                                                                 |
-|-----------------|-------------------------------------------------------------------------|
-| Engine          | MySQL                                                                  |
-| Deployment      | Multi-AZ (us-east-1a and us-east-1b)                                   |
-| Subnet Group    | Data subnets (10.16.192.0/20, 10.16.208.0/20)                          |
-| Storage Type    | General Purpose SSD – 20GB                                             |
-| Secrets Manager | Stores RDS Credentials                                                 |
-| Rotation        | Enabled, every 7 days                                                  |
+| Component | Details |
+|----------|--------|
+| Engine | MySQL |
+| Deployment | Multi-AZ (us-east-1a, us-east-1b) |
+| Subnet Group | 10.16.192.0/20, 10.16.208.0/20 |
+| Storage Type | General Purpose SSD (20GB) |
+| Secrets Manager | Stores credentials |
+| Rotation | Enabled (7 days) |
 
 ## S3 Bucket Configuration
 

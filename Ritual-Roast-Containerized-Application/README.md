@@ -40,11 +40,12 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 | WebApp Subnets (Private) | 10.16.64.0/20 (us-east-1a), 10.16.80.0/20 (us-east-1b) |
 | Data Subnets (Private) | 10.16.192.0/20 (us-east-1a), 10.16.208.0/20 (us-east-1b) |
 | Route Tables | Public: 0.0.0.0/0 → IGW <br> Private: 0.0.0.0/0 → NAT Gateway |
-| Security Group     | Inbound Rules                                                                 |
-|------------------|------------------------------------------------------------------------------|
-| LoadBalancer-SG  | Allow HTTP (port 80) from 0.0.0.0/0                                          |
-| Web-App-SG       | Allow TCP 5000 from load-balancer-sg                                          |
-| Database-SG      | Allow TCP 3306 from web-app-sg and from itself (for Secrets Manager rotation) |
+
+| Security Group | Inbound Rules |
+|---------------|--------------|
+| LoadBalancer-SG | Allow HTTP (80) from 0.0.0.0/0 |
+| Web-App-SG | Allow TCP 5000 from loadbalancer-sg <br> Allow TCP 3000 from loadbalancer-sg |
+| Database-SG | Allow TCP 3306 from web-app-sg and from itself (for Secrets Manager Lambda rotation) |
 
 ## RDS MySQL Configuration
 

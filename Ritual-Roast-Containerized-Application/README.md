@@ -64,14 +64,14 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 
 | Permission | Purpose |
 |-----------|--------|
-| AmazonECSTaskExecutionRolePolicy | Pull images from ECR & send logs to CloudWatch |
-| SecretsManagerReadWrite | Fetch DB credentials |
+| AmazonECSTaskExecutionRolePolicy | Pull images from Amazon ECR & send logs to Amazon CloudWatch |
+| SecretsManagerReadWrite | Fetch DB credentials securely |
 
 ### EC2 Permissions
 
 | Permission | Purpose |
 |-----------|--------|
-| AmazonSSMManagedInstanceCore | SSM access |
+| AmazonSSMManagedInstanceCore | SSM Session Manager access for Docker Image Server |
 
 ## EC2 Instance Configuration (Docker Server)
 
@@ -86,27 +86,96 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 
 | Component | Details |
 |----------|--------|
-| Purpose | Docker images for Next.js frontend & Flask backend |
+| Purpose | Docker images for Next.js frontend UI & Flask backend application |
 
 ## ECS Task Definitions
 
-### Next.js Frontend
+### Next.js Frontend App
 
-| Field | Value |
+| Task Definiton | Details |
 |------|------|
-| Task Definition | frontend-nextjs-app-def |
+| Task Definition Name | ritual-roast-nextjs-frontend-task-def |
 | IAM Role | Task execution role |
-| Container Name | frontend container |
-| Port | 3000 |
+| Container Name | ritual-roast-nextjs-container |
+| Port Mappings | 3000 |
 
 ### Flask App
 
-| Field | Value |
+| Task Defintion | Details |
 |------|------|
-| Task Definition | flask-app-def |
+| Task Definition Name | ritual-roast-Flask-backend-task-def |
 | IAM Role | Task execution role |
-| Container Name | flask container |
+| Container Name | ritual-roast-flask-container |
+| Port Mappings | 5000 |
+
+## Load Balancer Target Groups
+
+| Next.js App Target Group | Details |
+|------|------|
+| Name | ritual-roast-nextjs-tg |
+| Target Type | IP |
+| Port | 3000 |
+| Protocol | HTTP |
+| Health Check | / |
+
+| Flask App Target Group | Details |
+|------|------|
+| Name | ritual-roast-flask-tg |
+| Target Type | IP |
 | Port | 5000 |
+| Protocol | HTTP |
+| Health Check | /api/health |
+
+## Application Load Balancer Configuration
+
+| Component | Details |
+|----------|--------|
+| Name | ritual-roast-alb |
+| Type | Internet-facing |
+| Subnets | Public Subnets 1 & 2 |
+| Security Group | loadbalancer-sg |
+| Listener | HTTP:80 → ritual-roast-nextjs-tg |
+| Condition Rule | Path /api/* → ritual-roast-flask-tg |
+
+## ECS Service - Next.js Frontend App
+
+| Next.js App Service | Details |
+|----------|--------|
+| Task Definition | ritual-roast-nextjs-frontend-task-def |
+| Revision | (Latest) |
+| Service Name | ritual-roast-nextjs-frontend-service |
+| Cluster Type | Fargate |
+| Capacity Provider Strategy | Fargate |
+| Service Type | REPLICA |
+| Desired Tasks | 2 |
+| VPC | ritual-roast-vpc |
+| Security Group | rr-app-sg |
+| Load Balancer Type | Application Load Balancer |
+| Load Balancer Name | ritual-roast-alb |
+| Listener Protocol | HTTP:80 |
+| Target Group | ritual-roast-nextjs-tg |
+| Health Check | / |
+| Protocol | HTTP |
+
+## ECS Service - Flask Backend App
+
+| Flask App Service | Details |
+|----------|--------|
+| Task Definition | ritual-roast-flask-backend-task-def |
+| Revision | (Latest) |
+| Service Name | ritual-roast-flask-backend-service |
+| Cluster Type | Fargate |
+| Capacity Provider Strategy | Fargate |
+| Service Type | REPLICA |
+| Desired Tasks | 2 |
+| VPC | ritual-roast-vpc |
+| Security Group | rr-app-sg |
+| Load Balancer Type | Application Load Balancer |
+| Load Balancer Name | ritual-roast-alb |
+| Listener Protocol | HTTP:80 |
+| Target Group | ritual-roast-flask-tg |
+| Health Check | /api/health |
+| Protocol | HTTP |
 
 # Deployment Steps with Screenshots
 

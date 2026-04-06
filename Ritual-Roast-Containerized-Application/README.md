@@ -21,11 +21,11 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 	- Stores submitted recipe data.
 	- Backend reads from this DB to populate the frontend dynamically
 
-![Customer Flow Chart](Architecture/RR-Flow-Chart.jpg)
+![Customer Flow Chart](Architecture/Customer_Flow_Chart.jpg)
 
 ## Low Level Design Architecture
 
-![Ritual Roast Low Level Design](Architecture/RR_LLD.jpg)
+![Ritual Roast Low Level Design](Architecture/RR_Architecture_Diagram_Containerized_App.jpg)
 
 # Low Level Design Documentation
 

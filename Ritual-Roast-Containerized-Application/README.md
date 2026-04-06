@@ -43,9 +43,9 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 
 | Security Group | Inbound Rules |
 |---------------|--------------|
-| LoadBalancer-SG | Allow HTTP (80) from 0.0.0.0/0 |
-| Web-App-SG | Allow TCP 5000 from loadbalancer-sg <br> Allow TCP 3000 from loadbalancer-sg |
-| Database-SG | Allow TCP 3306 from web-app-sg and from itself (for Secrets Manager Lambda rotation) |
+| rr-load-balancer-sg | Allow HTTP (80) from 0.0.0.0/0 |
+| rr-web-app-sg | Allow TCP 5000 from rr-load-balancer-sg <br> Allow TCP 3000 from rr-load-balancer-sg |
+| rr-database-sg | Allow TCP 3306 from rr-web-app-sg and from itself (for Secrets Manager Lambda rotation) |
 
 ## RDS MySQL Configuration
 
@@ -133,7 +133,7 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 | Name | ritual-roast-alb |
 | Type | Internet-facing |
 | Subnets | Public Subnets 1 & 2 |
-| Security Group | loadbalancer-sg |
+| Security Group | rr-load-balancer-sg |
 | Listener | HTTP:80 → ritual-roast-nextjs-tg |
 | Condition Rule | Path /api/* → ritual-roast-flask-tg |
 
@@ -149,7 +149,7 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 | Service Type | REPLICA |
 | Desired Tasks | 2 |
 | VPC | ritual-roast-vpc |
-| Security Group | Web-App-SG |
+| Security Group | rr-web-app-sg |
 | Load Balancer Type | Application Load Balancer |
 | Load Balancer Name | ritual-roast-alb |
 | Listener Protocol | HTTP:80 |
@@ -169,7 +169,7 @@ To design a secure, scalable architecture on AWS for hosting a Ritual Roast Cust
 | Service Type | REPLICA |
 | Desired Tasks | 2 |
 | VPC | ritual-roast-vpc |
-| Security Group | Web-App-SG |
+| Security Group | rr-web-app-sg |
 | Load Balancer Type | Application Load Balancer |
 | Load Balancer Name | ritual-roast-alb |
 | Listener Protocol | HTTP:80 |

@@ -186,7 +186,7 @@ The first step was to create a VPC which was named ritual-roast-vpc. So, a VPC i
 ![RR-VPC](Images/rr-vpc.png)
 
 ## Step 2
-The VPC would comprise of multiple subnets. For the project, we will make use of eight subnets. Two subnets, each for Public, Web, Application, and Data across two Availability Zones (us-east-1a and us-east-1b). The architecture is based on the VPC CIDR block range 10.16.0.0/16. Below are the screenshots of the created subnets with the assigned VPC:
+The VPC would comprise of multiple subnets. For the project, we will make use of six subnets. Two subnets, each for Public, Web application, and Data across two Availability Zones (us-east-1a and us-east-1b). The architecture is based on the VPC CIDR block range 10.16.0.0/16. Below are the screenshots of the created subnets with the assigned VPC:
 
 ![RR-Public-Subnet-01-1a](Images/publicsubnet-01-1a.png)
 
@@ -195,10 +195,6 @@ The VPC would comprise of multiple subnets. For the project, we will make use of
 ![RR-Web-Subnet-01-1a](Images/websubnet-01-1a.png)
 
 ![RR-Web-Subnet-02-1b](Images/websubnet-02-1b.png)
-
-![RR-App-Subnet-01-1a](Images/appsubnet-01-1a.png)
-
-![RR-App-Subnet-02-1b](Images/appsubnet-02-1b.png)
 
 ![RR-Data-Subnet-01-1a](Images/datasubnet-01-1a.png)
 

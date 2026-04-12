@@ -236,7 +236,7 @@ Relational Database Service (RDS) MySQL database is deployed as we will be using
 
 ![RR-RDS-Subnet](Images/rr-rds-subnet.png)
 
-![RR-RDS-Instance-Config](Images/rr-rds-db-containerized-instance-config.PNG)
+![RR-RDS-Instance-Config](Images/rr-rds-db-containerized-app-instance-config.PNG)
 
 ## Step 8
 

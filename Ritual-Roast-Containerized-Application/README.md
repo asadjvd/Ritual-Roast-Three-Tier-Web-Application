@@ -315,7 +315,7 @@ Next step is to deploy two target groups one for Flask backend application and t
 
 ![RR-Flask-TG](Images/rr-flask-tg-containerized-app.PNG)
 
-![RR-Nextjs-TG](Images/rr-nextjs-tg.PNG)
+![RR-Nextjs-TG](Images/rr-nextjs-tg.png)
 
 
 ## Step 

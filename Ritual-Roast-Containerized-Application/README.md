@@ -269,13 +269,45 @@ Below is a screenshot of the created Docker server instance:
 
 ## Step 10
 
-Before creating our Docker images using the Docker server we configured in previous step, we will create repositories in Amazon Elastic Container Registry service. This is the service that is used to host the container images and will then be deployed to ECS service to create the ECS instances. Below are screenshots of the two private repositories created and the images pushed in them:
+Before creating our Docker images using the Docker server we configured in previous step, we will create repositories in Amazon Elastic Container Registry service. This is the service that is used to host the container images and will then be deployed to ECS service to create the ECS instances. Below are screenshots of the two private repositories created:
 
 ![RR-ECR-Repo](Images/rr-ecr-repo.PNG)
 
+## Step 11
+
+Next, we will create the Docker images and push those images to the ECR repositories we had created in the previous step. We will access the Docker server that we had configured in Step 9. The dockerfiles are provided in the Resources directory present in the Github repository. Using the dockerfiles we will create and push images from the Docker server to ECR. In order for Docker server EC2 instance to communicate with ECR we would also attach a permission policy called _EC2InstanceProfileForImageBuilderECRContainerBuild_ so that it can get authentication token and finally push images to ECR. The commands executed to pull the source code files from Github repository, then to create and push Docker images are shared below:
+
+**To get the resource files from the github repository and extract the contents follow below steps:**
+```
+curl -L -o ritual-roast-flask-backend.zip https://github.com/asadjvd/AWS-Projects/tree/440c2a8abd96bffd9544730bf3a1a3ef4077f35e/Ritual-Roast-Containerized-Application/Resources
+curl -L -o ritual-roast-nextjs-frontend.zip https://github.com/asadjvd/AWS-Projects/tree/440c2a8abd96bffd9544730bf3a1a3ef4077f35e/Ritual-Roast-Containerized-Application/Resources
+unzip ritual-roast-flask-backend.zip
+unzip ritual-roast-nextjs-frontend.zip
+```
+
+**Build and push Docker image for Nextjs Frontend Application**
+```
+cd ritual-roast-nextjs-frontend/
+docker build -t <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repository-name> .
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
+docker push <ecr-repository-uri>:latest
+```
+
+**Build and push Docker image for Flask Backend Application**
+```
+cd ritual-roast-flask-backend/
+docker build -t <aws_account_id>.dkr.ecr.<region>.amazonaws.com/<repository-name> .
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.<region>.amazonaws.com
+docker push <ecr-repository-uri>:latest
+```
+
+Below are screenshots of the new policy attached to EC2 role for ECR and Docker images created and pushed to the respective repositories in ECR:
+
 ![RR-ECR-Nextjs-App-Image](Images/rr-ecr-nextjs-app-image.PNG)
 
-![RR-ECR-Flask-App-Image](Images/rr-ecr-flask-app-image.PNG)
+![RR-ECR-Nextjs-App-Image](Images/rr-ecr-nextjs-app-image.PNG)
+
+![RR-EC2-ECR-Permission-Policy](Images/rr-ec2-ecr-permission-policy.PNG)
 
 ## Step 
 

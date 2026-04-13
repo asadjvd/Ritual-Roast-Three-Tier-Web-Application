@@ -311,55 +311,8 @@ Below are screenshots of the new policy attached to EC2 role for ECR and Docker 
 
 ## Step 12
 
-Next step is to deploy two target groups one for Flask backend application and the other for frontend nextjs application. The architecture is such that fargate would launch the containers within a fargate shared environment and then it would inject ENI cards into the VPC into the appropriate subnets it identified which means the target types would be IP addresses. Below are screenshots of both target groups:
+Next step is to deploy two target groups one for Flask backend application and the other for frontend nextjs application. The architecture is such that fargate would launch the containers within a fargate shared environment and then it would inject ENI cards into the VPC into the appropriate subnets it identified which means the target types would be IP addresses. After that we create the load balancer which we will configure to connect to the already created target groups. The load balancer deployed will forward traffic to Nextjs target group and we will also have to create to rule which is a path based rule so that we can send traffic destined for all of those API calls to the Flask backend target group. Load balancer would distribute any incoming traffic with a default route to frontend UI nextjs app but any traffic that is destined to the API calls to add recipes or get recipes should be directed to the Flask app so will have to create an additional rule in Load Balancer for path based routing to the flask target group. Below are screenshots of the Application Load Balancer: 
 
-![RR-Flask-TG](Images/rr-flask-tg-containerized-app.PNG)
+![RR-Application-Load-Balancer](Images/rr-app-alb.png)
 
-![RR-Nextjs-TG](Images/rr-nextjs-tg.png)
-
-
-## Step 
-
-In addition, we deploy Application Load Balancer (ALB). The ALB will accept inbound traffic from the internet on port 80 from customers and distribute traffic to ALB nodes that are deployed in public subnets. As part of ALB, we will be configuring target groups as target groups would host or define the targets, which will be the EC2 instances that will run the web application. Before creating the ALB, we create the target group where we configure the protocol as HTTP, select port 5000 for Flask Web Application, select the VPC specifically created for the Ritual Roast Web Application project and lastly, we configure the health checks for the instances. Next, we deployed the load balancer where we made sure it is multi-AZ for our project, selected the Ritual Roast VPC, load balancer security group and the target group created for the ritual roast application along with port 80 to listen to traffic from internet. Below is screenshot showing the configurations used for ALB:
-
-![RR-ALB](Images/rr-app-alb.png)
-
-## Step 11
-
-After having deployed ALB, next we will deploy an Auto Scaling Group (ASG) which will have a launch template design that will allow us to scale in and scale out EC2 instances. The launch template will be configured to use the AMI, which is a standard Linux 2023 AMI, it will also be configured with a User Data Script that will allow us to download source code files from S3 bucket to our EC2 instances once they are launched. In addition to that the launch template will be configured with the IAM roles necessary to give permissions so that it can access all those other resources that it needs to access with all configurations in place. The launch template will launch web application which will be fully configured to run the Flask based application. Below are screenshots of the configured ASG, launch template, the user data script code that we used during the launch of EC2 instances, and the instance summary once in available state:
-
-![RR-Launch-Template](Images/rr-launch-template.png)
-
-![RR-ASG-Details](Images/rr-asg-details.png)
-
-![RR-ASG-Integration](Images/rr-asg-integration.png)
-
-![RR-User-Data-Script](Images/user-data.PNG)
-
-![RR-Instance-Summary-1](Images/instance-summary1.png)
-
-![RR-Instance-Summary-2](Images/instance-summary2.png)
-
-# Ritual Roast Web Application High Availability Tests
-
-Once the deployment is complete for multi-tier application using AWS services, next we run some high availability tests. First, we do a test to see if auto scaling group works as expected or not. The ASG was designed to ensure that there are always two instances available across the two subnets across the two availability zones. For the first test we stopped one of the two running instances and once stopped it would mean the health check would fail and the target group would show only one healthy instance remaining while there will be three total targets. It means that there is already one more instance in deployment. From the activity history in ASG we can see that one instance was drained as it was found to be out of service and immediately terminated upon health check failure. Subsequently, a new replacement instance was successfully launched in response to an unhealthy instance. The target group would show us two healthy instances, and we would still be able to access the application from the other active instance using the DNS name from the Load Balancer. Below are screenshots from the first test we did by stopping one running instance to check availability of the web application and the behavior of ASG running a fleet of two EC2 instances:
-
-![RR-App-TG-Pre-FO](Images/rr-app-tg-pre-fo.png)
-
-![RR-App-TG-Post-FO](Images/rr-app-tg-post-fo.png)
-
-![RR-ASG-Activity-Logs](Images/rr-asg-activity-after-stopping-instance.png)
-
-![RR-EC2-After-Stopping-Instance](Images/rr-ec2-after-stopping-instance.png)
-
-For RDS database failover we would go to the already created ritualroastdb. We performed a simulation of a failover by rebuilding the primary database instance. So, for that we select the Reboot with Failover? option to perform a failover. Once confirmed the database instance will be rebooted. The data will be replicated synchronously. Below screenshots show we can still connect to the database once the reboot has been completed as a third recipe has been added post failover:
-
-![RR-RDS-FO-Logs-Events](Images/rr-rds-fo-log-events.png)
-
-### Ritual Roast Application Pre Failover
-
-![RR-App-Pre-FO](Images/rr-app-pre-fo.png)
-
-### Ritual Roast Application Post Failover
-
-![RR-App-Post-FO](Images/rr-app-post-fo.png)
+![RR-ALB-Rules](Images/rr-alb-rules.PNG)

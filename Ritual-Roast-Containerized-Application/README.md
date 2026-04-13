@@ -246,11 +246,19 @@ An additional security measure as part of the architecture is to make sure the a
 
 ## Step 8
 
-Another critical element of architecture is IAM Role. A lot of the services are dependent on each other. The EC2 instances that we deploy in web/app subnet are going to need to be able to pull source code files from S3 bucket. They are going to need to get credentials from Secrets Manager dynamically. So, we will need IAM Roles for that because one resource accessing or connecting to another resource would need authentication/authorization that is where IAM Roles come into play. Below is the screenshot of the created EC2 IAM Role:
+Another critical element of architecture is IAM Role. We will create an IAM Role for ECS Task so that they are able to connect to other AWS services on our behalf for instance they need to be able to talk to secrets manager and that role is going to be used by the ECS Task to have the necessary permissions to do all the stuff they need to do. We will also create another role for EC2 so we will deploy an EC2 instance that will act as the Docker server. We will deploy a Linux server on which we will install Docker and then we will create Docker images which will then be hosted on Elastic Container Registry. So we will use an EC2 role so that we can connect to the EC2 instance and give it permissions that it needs. 
 
-![RR-IAM-Role](Images/rr-iam-role.png)
+![RR-IAM-Role](Images/rr-iam-role-containerized-app-ec2.PNG)
 
-## Step 10
+![RR-IAM-Role](Images/rr-iam-role-containerized-app-ecs.PNG)
+
+## Step 9
+
+Next step, we will deploy an EC2 instance which will be used as Docker server. After deploying the instance, the kernel will also be upgraded and then Docker service will be installed. The EC2 instance will be deployed using Amazon Linux 2023 AMI in the public subnet. Once Docker is setup and images are created and hosted on ECR then the instance will be terminated.
+
+![RR-EC2-Docker-Server-Instance](Images/rr-ec2-instance-containerized-app-instance-summary.PNG)
+
+## Step 
 
 In addition, we deploy Application Load Balancer (ALB). The ALB will accept inbound traffic from the internet on port 80 from customers and distribute traffic to ALB nodes that are deployed in public subnets. As part of ALB, we will be configuring target groups as target groups would host or define the targets, which will be the EC2 instances that will run the web application. Before creating the ALB, we create the target group where we configure the protocol as HTTP, select port 5000 for Flask Web Application, select the VPC specifically created for the Ritual Roast Web Application project and lastly, we configure the health checks for the instances. Next, we deployed the load balancer where we made sure it is multi-AZ for our project, selected the Ritual Roast VPC, load balancer security group and the target group created for the ritual roast application along with port 80 to listen to traffic from internet. Below is screenshot showing the configurations used for ALB:
 

@@ -341,4 +341,10 @@ Next, we need to deploy an ECS cluster. ECS cluster is logical grouping of compu
 
 ![RR-Flask-Target-Group](Images/rr-flask-tg-containerized-app.PNG)
 
+## Step 16
 
+Finally, the users on the internet then will be able to access the application via the ALB. If they are accessing just the website then traffic is going to go through Nextjs TG and if they are making API calls then they would go through Flask TG and its going to go into those subnets connecting to those Fargate ENIs which are going to connect back into Tasks and we wiil have our application fully functional. 
+
+![RR-Nextjs-Frontend-UI](Images/rr-ui-containerized-app.PNG)
+
+![RR-Nextjs-Frontend-UI](Images/rr-ui-containerized-app-1.PNG)

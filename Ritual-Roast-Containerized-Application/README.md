@@ -335,12 +335,12 @@ Next step is to deploy the Task Definitions that will describe what containers w
 
 Next, we need to deploy an ECS cluster. ECS cluster is logical grouping of compute resources these could be EC2 instances or Fargate ENIs that are going to be injected into the VPC that connect back to the shared Fargate environment and they are used for containerized application. ECS cluster will essentially act as the boundary for the applications providing resource management, networking and security isolation. Before we can convert the Task Definitions to actual Tasks we need to deploy ECS cluster. ECS Cluster defines the network boundary within which we are going to deploy ECS tasks and incase of Fargate it is going to be injection of ENI network interfaces from a shared managed Fargate environment. We have got our ECS cluster deployed, we have got our task definitions, we have got our images in our ECR repository. We need to now deploy our ECS services. ECS services will trigger the launch of ECS Tasks in the Fargate environment which will inject those ENI into the VPC. From the Task Definition within the ECS cluster we have to create ECS Services. We will create one service for Nextjs and one for Flask. So the two services would go ahead and deploy the necessary containers based on our capacity requirements into the AWS Fargate task environment. Once the services are deployed then Fargate based on the network configuration and the definitions and the parameters of Task Definitions as well as Service configurations AWS Fargate would inject those ENI cards into the VPC into the Web/App Subnet and then the application will be accessible from there. Once done we can test the environment as website would be accessible. So now we have got two sets of services for the frontend next js app and two sets of services for the backend flask app across two availability zones to offer redundancy and high availability and then once that is in place traffic will able to flow from the load balancer into those relevant tasks based on the rules that we defined in the load balancer as to which target group to connect to depending on the type of traffic that is going in. So if its only accessing the website then its going to go to Next.js TG and if its posting or submitting recipes into the database then it is going to send that request to Flask TG which is going to connect to Flask Tasks which is then going to update the database. Finally, the backend application is going to be retrieving the database credentials from the Secrets Manager in order to make those calls to the database. Below are screenshots of ECS services:
 
-![RR-Nextjs-](Images/rr-nextjs-task-definition.PNG)
+![RR-Nextjs-Service](Images/rr-nextjs-frontend-service.png)
 
-![RR-Flask-Task-Definition](Images/rr-flask-task-definition.PNG)
+![RR-Nextjs-Service](Images/rr-nextjs-frontend-service-running.PNG)
 
-![RR-Nextjs-Task-Definition](Images/rr-nextjs-task-definition.PNG)
+![RR-Nextjs-Target-Group](Images/rr-nextjs-tg.png)
 
-![RR-Flask-Task-Definition](Images/rr-flask-task-definition.PNG)
+![RR-Flask-Target-Group](Images/rr-flask-tg-containerized-app.PNG)
 
 

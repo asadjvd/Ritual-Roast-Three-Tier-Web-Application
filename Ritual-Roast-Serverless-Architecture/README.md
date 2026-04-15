@@ -58,6 +58,7 @@ The application follows this high-level flow:
 **AWS Lambda**
 * AppRecipe function adds recipe to DynamoDB Table
 * GetRecipe function retrieves recipes from table
+  
 **AWS DynamoDB**
 * Stores submitted recipe data
 * NoSQL database with dynamic throughput provisioning

@@ -157,16 +157,72 @@ The application follows this high-level flow:
 
 ## Step 2
 
-* Once we have IAM Role in place then we will deploy DynamoDB table. This is the table that will be used to host all of the customer recipes. The DynamoDB table will be created in the us-east-1 region and they are not deployed in a VPC which means we don't need a VPC.
+* Once we have IAM Role in place then we will deploy DynamoDB table.
+* This is the table that will be used to host all of the customer recipes.
+* The DynamoDB table will be created in the us-east-1 region and they are not deployed in a VPC which means we don't need a VPC.
 
 ![Ritual Roast DynamoDB Table](Images/rr-serverless-dynamodb.PNG)
 
 ---
 
+## Step 3
 
+* Next, we will create the two Lambda functions called AddRecipe and GetRecipe.
+* The purpose of the functions would be to add recipes in the database and also retrieve recipes from the database and have them published on the website.
+* The Lambda functions will need to communicate with the DynamoDB table so they will need the necessary IAM Roles with permissions to access the table.
+* In addition to that Lambda function will need access to CloudWatch to deliver log files and log information about the functions and so that will need to be incorporated in permission set for that IAM Role.
 
+![Ritual Roast Lambda Functions](Images/rr-lambda-functions.PNG)
 
+![Ritual Roast Lambda AddRecipe Function Code](Images/rr-lambda-addrecipe-code.PNG)
 
+![Ritual Roast GetRecipe Lambda Function Code](Images/rr-lambda-getrecipe-code.PNG)
 
+![Ritual Roast Lambda Runtime Configuration](Images/rr-lambda-runtime-settings.PNG)
 
+---
 
+## Step 4
+
+* Next, we are going to deploy API Gateway specifically we are going to be creating REST API and methods for posting and getting recipes from the database using the Lambda functions.
+* So we are going to use the API Gateway to invoke the Lambda functions and then we will be able to work with the backend database.
+* It will be configured with CORS and we will get an invokation URL that we will subsequently be able to use to invoke the Lambda functions.
+
+![Ritual Roast API GW Resources](Images/rr-api-gateway-resources.PNG)
+
+![Ritual Roast API GW Stages](Images/rr-api-gw-stages.PNG)
+
+![Ritual Roast API GW Configurations](Images/rr-api-gw-configurations.PNG)
+
+---
+
+## Step 5
+
+* In the next step we will deploy the S3 bucket that will be hosting the frontend application.
+* The bucket will not be publicly accessible and only traffic from CloudFront Distribution will be allowed to reach S3 bucket.
+
+![Ritual Roast Serverless S3 Bucket](Images/rr-serverless-s3-bucket.PNG)
+
+---
+
+## Step 6 
+
+* Finally, we will deploy CloudFront Distribution which will allow the user to access the website. It will be front-facing the S3 bucket.
+* S3 bucket will be the origin for the CloudFront Distribution.
+
+![Ritual Roast Serverless CloudFront Distribution](Images/rr-serverless-cloudfront-distribution.PNG)
+
+---
+
+## Step 7
+
+*  The web page was accessible using CloudFront URL https://d6z1nfkk8p7eo.cloudfront.net/
+*  Recipes were also added to DynamoDB table as can be seen from screenshot.
+*  The website is configured to reload upon every recipe submission so that the user can read the full list of available recipes that have already been submitted and made visible.
+*  The user will always see the latest recipes that have been submitted along with the history of all the other recipes that are present in the public gallery page. 
+
+![Ritual DynamoDB Data](Images/rr-dynamodb-data.PNG)
+
+![Ritual Roast Website](Images/rr-web-ui.png)
+
+---

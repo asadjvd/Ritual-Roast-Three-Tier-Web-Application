@@ -48,11 +48,8 @@ The application follows this high-level flow:
 ---
 
 ## Customer Flow Chart
-**Customer (Web Browser)**
-* Initiates access to the web app via public internet
-**API Gateway**
-* Accepts PUT and GET requests only
-* Invokes appropriate Lambda function
+* **Customer (Web Browser)** – Initiates access to the web app via public internet
+* **API Gateway** – Accepts PUT and GET requests only – Invokes appropriate Lambda function
 **AWS Lambda**
 * AppRecipe function adds recipe to DynamoDB Table
 * GetRecipe function retrieves recipes from table

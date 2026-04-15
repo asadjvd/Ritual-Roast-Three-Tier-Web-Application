@@ -65,3 +65,13 @@ The application follows this high-level flow:
 
 ![Customer Flow Chart](Architecture/Customer-Flow-Chart-V3.jpg)
 
+---
+
+## Low Level Design Architecture
+
+![Ritual Roast Serverless Architecture](Architecture/RR_Serverless_Architecture.jpg)
+
+---
+
+
+
